@@ -1,0 +1,79 @@
+<?php
+
+class Book {
+    private $title;
+    private $author;
+    private $publicationYear;
+
+    public function __construct($title, $author, $publicationYear) {
+        $this->title = $title;
+        $this->author = $author;
+        $this->publicationYear = $publicationYear;
+    }
+
+    public function getTitle() {
+        return $this->title;
+    }
+
+    public function getAuthor() {
+        return $this->author;
+    }
+
+    public function getPublicationYear() {
+        return $this->publicationYear;
+    }
+}
+
+class Library {
+    private $books = [];
+
+    public function addBook($title, $author, $publicationYear) {
+        $book = new Book($title, $author, $publicationYear);
+        $this->books[] = $book;
+    }
+
+    public function searchBooks($searchTerm) {
+        $results = [];
+        foreach ($this->books as $book) {
+            if (stripos($book->getTitle(), $searchTerm) !== false ||
+                stripos($book->getAuthor(), $searchTerm) !== false ||
+                stripos($book->getPublicationYear(), $searchTerm) !== false) {
+                $results[] = $book;
+            }
+        }
+        return $results;
+    }
+
+    public function displayBooks() {
+        echo "Library Books:\n";
+        foreach ($this->books as $book) {
+            echo "Title: " . $book->getTitle() . "\n";
+            echo "Author: " . $book->getAuthor() . "\n";
+            echo "Publication Year: " . $book->getPublicationYear() . "\n";
+            echo "-----------------------\n";
+        }
+    }
+}
+
+// Example usage
+$library = new Library();
+
+// Add books to the library
+$library->addBook("The Great Gatsby", "F. Scott Fitzgerald", "1925");
+$library->addBook("To Kill a Mockingbird", "Harper Lee", "1960");
+$library->addBook("Pride and Prejudice", "Jane Austen", "1813");
+
+// Search for books
+$searchResults = $library->searchBooks("gatsby");
+echo "Search Results:\n";
+foreach ($searchResults as $book) {
+    echo "Title: " . $book->getTitle() . "\n";
+    echo "Author: " . $book->getAuthor() . "\n";
+    echo "Publication Year: " . $book->getPublicationYear() . "\n";
+    echo "-----------------------\n";
+}
+
+// Display all books in the library
+$library->displayBooks();
+
+?>
